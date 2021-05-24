@@ -15,25 +15,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
 
+
+
+Route::group(['middleware'=>'auth'],function(){
 //feed
-Route::get('/feed', [PostController::class, 'feed'])->name('feed');
+Route::get('/', [PostController::class, 'feed'])->name('feed');
 
 
 //profile
 Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
-Route::get('editprofile', [ProfileController::class, 'editprofile'])->name('editprofile');
+Route::get('editprofile/{id}', [ProfileController::class, 'editprofile'])->name('editprofile');
+Route::put('updated/{id}', [ProfileController::class, 'updateProfile'])->name('updateProfile');
 
 
 //posts
 Route::get('postPage', [PostController::class, 'postPage'])->name('newPost');
 Route::post('postnew', [PostController::class, 'store'])->name('store');
+});

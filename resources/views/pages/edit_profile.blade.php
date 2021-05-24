@@ -10,17 +10,19 @@
                     class="profile-form__avatar"
                 />
             </div>
-            <h4 class="profile-form__title">serranoarevalo</h4>
+            <h4 class="profile-form__title">{{Auth::user()->name}}</h4>
         </header>
-        <form action="#" class="edit-profile__form">
+        <form action="{{route('updateProfile',['id'=>Auth::user()->id])}}" class="edit-profile__form" method="post" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
             <div class="edit-profile__form-row">
-                <label for="name" class="edit-profile__label">Name
+                <label for="image" class="edit-profile__label">Photo
                 </label>
                 <input 
                     id="name"
-                    type="text"
-                    value="Nicolás Serrano Arévalo"
+                    type="file"    
                     class="edit-profile__input"
+                    name="image"
                 />
             </div>
             <div class="edit-profile__form-row">
@@ -31,6 +33,8 @@
                     type="text"
                     id="username"
                     class="edit-profile__input"
+                    value={{$profile->username}}
+                    name="username"
                 />
             </div>
             <div class="edit-profile__form-row">
@@ -41,13 +45,16 @@
                     type="url"
                     id="website"
                     class="edit-profile__input"
+                    value={{$profile->website}}
+                    name="website"
                 />
             </div>
             <div class="edit-profile__form-row">
                 <label for="bio" class="edit-profile__label">
                     Bio
                 </label>
-                <textarea id="bio" class="edit-profile__textarea"></textarea>
+                <textarea id="bio" class="edit-profile__textarea"    value={{$profile->bio}}
+                    name="bio">{{$profile->bio}}</textarea>
             </div>
             <div class="edit-profile__form-row">
                 <label for="email" class="edit-profile__label">
@@ -57,6 +64,8 @@
                     type="email"
                     class="edit-profile__input"
                     id="email"
+                    value={{$profile->email}}
+                    name="email"
                 />
             </div>
             <div class="edit-profile__form-row">
@@ -67,11 +76,13 @@
                     type="text"
                     class="edit-profile__input"
                     id="phone-number"
+                    value={{$profile->phone}}
+                    name="phone"
                 />
             </div>
             <div class="edit-profile__form-row">
                 <label for="gender" class="edit-profile__label">Gender</label>
-                <select id="gender">
+                <select id="gender" name="gender">
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                     <option value="whatever">Whatever</option>

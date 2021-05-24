@@ -10,7 +10,8 @@ class PostController extends Controller
 {
 public function feed()
 {
-    return view('pages/feed');
+    $posts=Post::all();
+    return view('pages/feed',['posts'=>$posts]);
 }
 
 

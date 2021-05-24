@@ -15,12 +15,12 @@
             <div class="profile__info">
                 <div class="profile__name">
                     <h1 class="profile__title">{{Auth::user()->name}}</h1>
-                    <a href="{{route('editprofile')}}" class="profile__button u-fat-text">Edit profile</a>
+                    <a href="{{route('editprofile',['id'=>Auth::user()->id])}}" class="profile__button u-fat-text">Edit profile</a>
                     <i class="fa fa-cog fa-2x" id="cog"></i>
                 </div>
                 <ul class="profile__numbers">
                     <li class="profile__posts">
-                        <span class="profile__number u-fat-text">10</span> posts
+                        <span class="profile__number u-fat-text">{{count($posts)}}</span> posts
                     </li>
                     <li class="profile__followers">
                         <span class="profile__number u-fat-text">40</span> followers
