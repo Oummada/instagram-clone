@@ -161,7 +161,7 @@
                  <div class="login__section login__sign-up">
                      <span class="login__text">
                          Don't have an account? 
-                         <a href="#" class="login__link">
+                         <a href="{{route('register')}}" class="login__link">
                              Sign up
                          </a>
                      </span>
@@ -202,7 +202,7 @@
                      <li class="footer__list-item"><a href="#" class="footer__link">language</a></li>
                  </ul>
              </nav>
-             <span class="footer__copyright">Â© 2017 instagram</span>
+             <span class="footer__copyright">Â© 2021 instagram</span>
          </footer>
          <script
    src="https://code.jquery.com/jquery-3.2.1.min.js"

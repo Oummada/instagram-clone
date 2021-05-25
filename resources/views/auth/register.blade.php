@@ -108,7 +108,7 @@
             <section class="login__column">
                 <div class="login__section login__sign-in">
                     <img 
-                        src="{{asset('images/logo.png')}}"
+                        src="{{asset('/images/logo.png')}}"
                         alt="Logo"
                         title="Logo"
                         class="login__logo"

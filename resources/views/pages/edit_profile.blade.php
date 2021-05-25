@@ -6,7 +6,7 @@
         <header class="profile-form__header">
             <div class="profile-form__avatar-container">
                 <img 
-                    src="{{asset('images/avatar.png')}}"
+                    src="{{asset('storage/'.$profile->image)}}"
                     class="profile-form__avatar"
                 />
             </div>
@@ -14,7 +14,7 @@
         </header>
         <form action="{{route('updateProfile',['id'=>Auth::user()->id])}}" class="edit-profile__form" method="post" enctype="multipart/form-data">
             @csrf
-            @method('PUT')
+            @method('PATCH')
             <div class="edit-profile__form-row">
                 <label for="image" class="edit-profile__label">Photo
                 </label>
@@ -33,8 +33,9 @@
                     type="text"
                     id="username"
                     class="edit-profile__input"
-                    value={{$profile->username}}
                     name="username"
+                    value="{{$profile->username}}"
+                   
                 />
             </div>
             <div class="edit-profile__form-row">
@@ -45,7 +46,7 @@
                     type="url"
                     id="website"
                     class="edit-profile__input"
-                    value={{$profile->website}}
+                    value="{{$profile->website}}"
                     name="website"
                 />
             </div>
@@ -53,7 +54,7 @@
                 <label for="bio" class="edit-profile__label">
                     Bio
                 </label>
-                <textarea id="bio" class="edit-profile__textarea"    value={{$profile->bio}}
+                <textarea id="bio" class="edit-profile__textarea"    value="{{$profile->bio}}"
                     name="bio">{{$profile->bio}}</textarea>
             </div>
             <div class="edit-profile__form-row">
@@ -64,7 +65,7 @@
                     type="email"
                     class="edit-profile__input"
                     id="email"
-                    value={{$profile->email}}
+                    value={{Auth::user()->email}}
                     name="email"
                 />
             </div>
@@ -76,7 +77,7 @@
                     type="text"
                     class="edit-profile__input"
                     id="phone-number"
-                    value={{$profile->phone}}
+                    value="{{$profile->phone}}"
                     name="phone"
                 />
             </div>

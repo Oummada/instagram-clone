@@ -31,7 +31,8 @@ if ($req->hasFile('image')) {
 $post->photo=$path;
 $post->user_id=Auth::user()->id;
 $post->save();
-return back();
+return redirect('profile');
+
 }
 
 }

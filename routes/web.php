@@ -23,7 +23,9 @@ Auth::routes();
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-
+Route::get('register', function () {
+    return view('auth/register');
+})->name('register');
 
 
 
@@ -35,7 +37,7 @@ Route::get('/', [PostController::class, 'feed'])->name('feed');
 //profile
 Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
 Route::get('editprofile/{id}', [ProfileController::class, 'editprofile'])->name('editprofile');
-Route::put('updated/{id}', [ProfileController::class, 'updateProfile'])->name('updateProfile');
+Route::PATCH('updated', [ProfileController::class, 'updateProfile'])->name('updateProfile');
 
 
 //posts

@@ -13,31 +13,33 @@ class ProfileController extends Controller
    public function profile()
    {
       $posts=Post::where('user_id',Auth::user()->id)->get();
-     
-      return view('pages/profile', ['posts'=>$posts]);
+      $profile=Profile::where('user_id',Auth::user()->id)->first();
+      return view('pages.profile', ['posts'=>$posts], ['profile'=>$profile]);
    }
 
    public function editprofile($id)
    {
-      $profile=Profile::find($id);
+      $profile=Profile::where('user_id',$id)->first();
 
-      return view('pages/edit_profile' , ['profile'=>$profile]);
+      return view('pages.edit_profile' , ['profile'=>$profile]);
    }
 
 
 
-   public function updateProfile(Request $req,$id)
+   public function updateProfile(Request $req)
    {
-    $profile=Profile::find($id);
-    $profile->name=$req->name;
+    $profile=Profile::where('user_id',Auth::user()->id)->first();
     $profile->username=$req->username;
     $profile->bio=$req->bio;
-    $profile->email=$req->email;
     $profile->website=$req->website;
     $profile->gender=$req->gender;
+    $profile->phone=$req->phone;
+if ( $req->hasFile('image')) {
+   $path=$req->image->store('profilePhotos');
+}
+$profile->image=isset($req->image) ? $path : $profile->image ;
     $profile->user_id=Auth::user()->id;
     $profile->save();
-    return back();
-
+    return redirect('profile');
    }
 }

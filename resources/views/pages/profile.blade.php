@@ -1,20 +1,23 @@
 @extends('layouts.app1')
 
 @section('content')
-<head><title>
+<head>
+    <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <title>
     profile</title></head>
 <main class="profile-container">
     <section class="profile">
         <header class="profile__header">
             <div class="profile__avatar-container">
                 <img 
-                    src="{{asset('images/avatar.png')}}"
+                    src="{{asset('storage/'.$profile->image)}}"
                     class="profile__avatar"
                 />
             </div>
             <div class="profile__info">
                 <div class="profile__name">
-                    <h1 class="profile__title">{{Auth::user()->name}}</h1>
+                    <h1 class="profile__title">{{$profile->username}}</h1>
                     <a href="{{route('editprofile',['id'=>Auth::user()->id])}}" class="profile__button u-fat-text">Edit profile</a>
                     <i class="fa fa-cog fa-2x" id="cog"></i>
                 </div>
@@ -30,16 +33,19 @@
                     </li>
                 </ul>
                 <div class="profile__bio">
-                    <span class="profile__full-name u-fat-text">Nicolás Serrano Arévalo</span>
-                    <p class="profile__full-bio">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit rerum consequuntur aperiam, dicta delectus nihil voluptas explicabo sapiente quisquam. Eius ipsam asperiores excepturi maiores, atque voluptatum sed fuga esse molestiae.</p>
-                    <a href="http://serranoarevalo.com" class="profile__link u-fat-text">serranoarevalo.com</a>
+                    <span class="profile__full-name u-fat-text">{{Auth::user()->name}}</span><br>
+                    {{-- bio --}}
+                    <p class="profile__full-bio">{{$profile->bio}}</p><br>
+                    <a href="http://serranoarevalo.com" class="profile__link u-fat-text">{{$profile->website}}</a>
                 </div>
             </div>
         </header>
         <div class="profile__pictures">
 
-            @foreach ($posts as $post)
-                
+            
+
+
+            @forelse ($posts as $post)
             <a href="image-detail.html" class="profile-picture">
                 <img
                     src="{{asset('storage/'.$post->photo)}}"
@@ -55,8 +61,9 @@
                     </span>
                 </div>
             </a>
-            @endforeach
-            
+            @empty
+                <h1 class="text-center text-secondary m-5">No Posts yet</h1>
+            @endforelse
             
            
         </div>
