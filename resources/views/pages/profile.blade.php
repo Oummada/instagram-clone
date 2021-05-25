@@ -47,9 +47,15 @@
 
             @forelse ($posts as $post)
             <a href="image-detail.html" class="profile-picture">
+                <style>
+                    .post_img{
+                        width: 300px;
+                      height: 300px;
+                    }
+                </style>
                 <img
                     src="{{asset('storage/'.$post->photo)}}"
-                    class="profile-picture__picture"
+                    class="post_img profile-picture__picture"
                    
                 />
                 <div class="profile-picture__overlay">

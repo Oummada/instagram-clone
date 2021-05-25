@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Profile;
+use App\Models\User as ModelsUser;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,7 +14,8 @@ class PostController extends Controller
 public function feed()
 {
     $posts=Post::all();
-    return view('pages/feed',['posts'=>$posts]);
+    $users=ModelsUser::all();
+    return view('pages/feed',['posts'=>$posts] ,['users'=>$users]);
 }
 
 
@@ -35,4 +39,10 @@ return redirect('profile');
 
 }
 
+public function deleted($id)
+{
+   $post=Post::find($id);
+   $post->delete();
+   return back();
+}
 }

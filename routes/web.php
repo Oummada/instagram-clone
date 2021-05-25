@@ -43,4 +43,5 @@ Route::PATCH('updated', [ProfileController::class, 'updateProfile'])->name('upda
 //posts
 Route::get('postPage', [PostController::class, 'postPage'])->name('newPost');
 Route::post('postnew', [PostController::class, 'store'])->name('store');
+Route::delete('deleted/{id}', [PostController::class, 'deleted'])->name('deletePost');
 });
