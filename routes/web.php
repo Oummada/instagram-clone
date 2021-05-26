@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,4 +45,11 @@ Route::PATCH('updated', [ProfileController::class, 'updateProfile'])->name('upda
 Route::get('postPage', [PostController::class, 'postPage'])->name('newPost');
 Route::post('postnew', [PostController::class, 'store'])->name('store');
 Route::delete('deleted/{id}', [PostController::class, 'deleted'])->name('deletePost');
+Route::get('editPost/{id}', [PostController::class , 'editPost'])->name('editPost');
+Route::put('updatePost/{id}', [PostController::class, 'updatePost'])->name('updatePost');
+
+//comments
+Route::post('CommentPosted/{id}', [PostController::class, 'storeComment'])->name('storeComment');
+Route::post('likes', [PostController::class, 'likes'])->name('likes');
+Route::post('unlike', [PostController::class, 'unlike'])->name('unlike');
 });

@@ -3,10 +3,10 @@
     
 <head><title>feed</title>
 <!-- CSS only -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
 </head>
 
-<main class="feed">
+<main class="feed parent">
    @foreach ($posts as $post)
    <section class="photo">
     <header class="photo__header">
@@ -26,12 +26,14 @@
         </div>
     </header>
     @if ($post->user_id== Auth::user()->id)
+    <div class="d-flex">
     <form action="{{route('deletePost',['id'=>$post->id])}}" method="post">
 @method('DELETE')
 @csrf
-        <button class="btn btn-sm btn-secondary">delete</button>
+        <button class="btn btn-sm btn-secondary"><i class="fas fa-trash"></i></button>
     </form>
-        
+        <a href="{{route('editPost',['id'=>$post->id])}}" class="btn btn-sm btn-secondary "><i class="fas fa-edit"></i></a>
+    </div>
     @endif
     <div class="photo__file-container">
         <img
@@ -41,26 +43,60 @@
     </div>
     <div class="photo__info">
         <div class="photo__icons">
-            <span class="photo__icon">
-                <i class="fa fa-heart-o heart fa-lg"></i>
-            </span>
+            {{-- //like button --}}
+           
+            <form action="{{route('likes')}}" method="post" class="hereLike">
+                @csrf
+                <input type="hidden" name="like" value="{{$post->id}}"> 
+                <button class="btn">
+                    <span class="photo__icon">
+                        <i class="fa fa-heart-o heart fa-lg"></i>
+                    </span>
+                </button>
+            </form>
+
+            <form action="{{route('unlike')}}" method="post" class="hereUnlike ">
+                @csrf
+                <input type="hidden" name="like" value="{{$post->id}}"> 
+                <button class="btn">
+                    <span class="photo__icon">
+                        <i class="fa fa-heart-o heart fa-lg"></i>
+                    </span>
+                </button>
+            </form>
+     
             <span class="photo__icon">
                 <i class="fa fa-comment-o fa-lg"></i>
             </span>
         </div>
-        <span class="photo__likes">35 likes</span>
+        <span class="photo__likes">{{count($post->has_Likes)}} likes</span>
         <ul class="photo__comments">
-            <li class="photo__comment">
-                <span class="photo__comment-author">serranoarevalo</span>wow this is great!
-            </li>
-            <li class="photo__comment">
-                <span class="photo__comment-author">lynn</span>no is not!
-            </li>
+@foreach ($post->has_comments as $comment)
+<li class="photo__comment">
+    {{-- //username --}}
+    <span class="photo__comment-author">
+       @foreach ($users as $user)
+       @if ($user->id==$comment->pivot->user_id)
+           
+       {{$user->profile->username}}
+       @endif
+       @endforeach
+   </span>
+   {{-- end username --}}
+   {{-- //comment --}}
+   {{ $comment->pivot->content}}
+</li>
+@endforeach
+           
         </ul>
         <span class="photo__time-ago">11 hours ago</span>
         <div class="photo__add-comment-container">
-            <textarea placeholder="Add a comment..." class="photo__add-comment"></textarea>
-            <i class="fa fa-ellipsis-h"></i>
+         {{-- comment --}}
+            <form action="{{route('storeComment',['id'=>$post->id])}}" method="post" class="d-flex">              
+                @csrf
+                <textarea name="content" placeholder="Add a comment..." class="photo__add-comment"></textarea>
+               <button class="btn text-primary">Post</button> 
+            </form>
         </div>
     </div>
 </section>
@@ -69,4 +105,17 @@
 </main>
 
 
+<script>
+
+    document.querySelector('.parent').addEventListener('click', (event)=> {
+       
+        let like=event.target.classList.contains('hereLike');
+        
+
+        if (like) {
+            
+            alert('hi');
+        }
+    })
+</script>
 @endsection

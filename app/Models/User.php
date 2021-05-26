@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Post;
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -51,4 +52,15 @@ class User extends Authenticatable
     {
        return $this->hasOne(Profile::class);
     }
+
+    public function can_comment()
+    {
+    return   $this->belongsToMany(Post::class,'comments', 'user_id', 'post_id')->withTimestamps();
+    }
+
+    public function can_like( )
+    {
+       return $this->belongsToMany(Post::class, 'likes', 'user_id','post_id');
+    }
 }
+
