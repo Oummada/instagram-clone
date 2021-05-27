@@ -22,6 +22,6 @@ class Post extends Model
 
     public function has_Likes()
     {
-        return $this->belongsToMany(ModelsUser::class, 'likes', 'post_id','user_id');
+        return $this->belongsToMany(ModelsUser::class, 'likes', 'post_id','user_id')->withPivot('post_id', 'user_id');
     }
 }

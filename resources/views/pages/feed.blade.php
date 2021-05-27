@@ -42,31 +42,38 @@
         />
     </div>
     <div class="photo__info">
-        <div class="photo__icons">
+        <div class="photo__icons d-flex ">
             {{-- //like button --}}
-           
-            <form action="{{route('likes')}}" method="post" class="hereLike">
-                @csrf
-                <input type="hidden" name="like" value="{{$post->id}}"> 
-                <button class="btn">
-                    <span class="photo__icon">
-                        <i class="fa fa-heart-o heart fa-lg"></i>
-                    </span>
-                </button>
-            </form>
+          
 
-            <form action="{{route('unlike')}}" method="post" class="hereUnlike ">
-                @csrf
-                <input type="hidden" name="like" value="{{$post->id}}"> 
-                <button class="btn">
-                    <span class="photo__icon">
-                        <i class="fa fa-heart-o heart fa-lg"></i>
-                    </span>
-                </button>
-            </form>
+                      
+         @if ( $post->has_Likes()->where('user_id',Auth::user()->id)->first())             
+     
+         <form action="{{route('unlike')}}" method="post" class=" ">
+            @csrf
+            <input type="hidden" name="like" value="{{$post->id}}"> 
+            <button class="btn text-danger">
+                <span id ="heart"><i style="color:red;cursor:pointer;font-size:24px;margin-right:10px" class="fa fa-heart" aria-hidden="true" ></i> </span>
+            </button>
+        </form>
+        @else      
+      
+        
+        <form action="{{route('likes')}}" method="post" class="hereLike">
+            @csrf
+            <input type="hidden" name="like" value="{{$post->id}}"> 
+            <button class="btn ">
+                <span id ="heart"><i  style="color:rgb(0, 0, 0);cursor:pointer;font-size:24px;margin-right:10px" class="fa fa-heart-o fs-5" aria-hidden="true" ></i> </span>
+            </button>
+        </form>
+
+        @endif 
+      
+           
+         
      
             <span class="photo__icon">
-                <i class="fa fa-comment-o fa-lg"></i>
+                <i class="fa fa-comment-o fa-lg m-2"></i>
             </span>
         </div>
         <span class="photo__likes">{{count($post->has_Likes)}} likes</span>
@@ -89,7 +96,7 @@
 @endforeach
            
         </ul>
-        <span class="photo__time-ago">11 hours ago</span>
+        <span class="photo__time-ago">{{$post->created_at->diffForHumans(null, false, true)}}</span>
         <div class="photo__add-comment-container">
          {{-- comment --}}
             <form action="{{route('storeComment',['id'=>$post->id])}}" method="post" class="d-flex">              
@@ -104,7 +111,7 @@
   
 </main>
 
-
+{{-- 
 <script>
 
     document.querySelector('.parent').addEventListener('click', (event)=> {
@@ -117,5 +124,5 @@
             alert('hi');
         }
     })
-</script>
+</script> --}}
 @endsection
