@@ -79,7 +79,7 @@ public function likes(Request $req)
 {
   $user=User::find(Auth::user()->id);
           
-  $user->can_like()->attach(Auth::user()->id, ["post_id"=>$req->like]);
+  $user->can_like()->attach($req->like);
   return back();
 }
 
@@ -87,9 +87,9 @@ public function likes(Request $req)
 public function unlike(Request $req)
 {
     $user=User::find(Auth::user()->id);
-    $user->can_like()->detach( ["post_id"=>$req->like]);
+    $user->can_like()->detach($req->like);
     return back();
 }
 
- 
+
 }

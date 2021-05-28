@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,8 +14,7 @@ class ProfileController extends Controller
    public function profile()
    {
       $posts=Post::where('user_id',Auth::user()->id)->get();
-      $profile=Profile::where('user_id',Auth::user()->id)->first();
-      return view('pages.profile', ['posts'=>$posts], ['profile'=>$profile]);
+      return view('pages.profile', ['posts'=>$posts] );
    }
 
    public function editprofile($id)
@@ -42,4 +42,38 @@ $profile->image=isset($req->image) ? $path : $profile->image ;
     $profile->save();
     return redirect('profile');
    }
+
+
+
+   public function userProfile($id)
+   {
+      $posts=Post::where('user_id',$id)->get();
+      $user=User::find($id);
+      $Authuser=User::find(Auth::user()->id);
+
+      // if($Authuser->canFollow->where('followed',$user->id)->first())
+      // {
+      //    return 'unfollow';
+      // }
+      // else{
+      //    return 'follow';
+      // }
+
+     return view('pages/userProfile',['posts'=>$posts,'user'=>$user]);
+   }
+
+   public function follow(Request $req)
+   {
+   $user=User::find(Auth::user()->id);
+   $user->canFollow()->attach($req->follow);
+   return back();
+   }
+
+   public function unfollow(Request $req)
+   {
+   $user=User::find(Auth::user()->id);
+   $user->canFollow()->detach($req->unfollow);
+   return back();
+   }
+
 }

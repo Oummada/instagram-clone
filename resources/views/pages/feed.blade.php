@@ -21,7 +21,12 @@
             @endforeach
         </div>
         <div class="photo__header-column">
-            <span class="photo__username">{{$post->user->name}}</span>
+            @if (Auth::user()->id==$post->user_id)
+                <a href="{{route('profile')}}">  <span class="photo__username">{{$post->user->name}}</span></a>
+            @else
+            <a href="{{route('userProfile',['id'=>$post->user_id])}}">  <span class="photo__username">{{$post->user->name}}</span> </a>
+            @endif
+          
             <span class="photo__location">European Art of Living Center - Bad Antogast</span>
         </div>
     </header>
@@ -97,6 +102,7 @@
            
         </ul>
         <span class="photo__time-ago">{{$post->created_at->diffForHumans(null, false, true)}}</span>
+        
         <div class="photo__add-comment-container">
          {{-- comment --}}
             <form action="{{route('storeComment',['id'=>$post->id])}}" method="post" class="d-flex">              

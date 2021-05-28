@@ -13,12 +13,12 @@ class CreateFollowingTable extends Migration
      */
     public function up()
     {
-        Schema::create('following', function (Blueprint $table) {
+        Schema::create('follows', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('following');
-            $table->foreign('follows')->references('id')->on('users');
-            $table->unsignedBigInteger('follower');
-            $table->foreign('followers')->references('id')->on('users');
+            $table->unsignedBigInteger('user_id_1');
+            $table->unsignedBigInteger('user_id_2');
+            $table->foreign('user_id_1')->references('id')->on('users');
+            $table->foreign('user_id_2')->references('id')->on('users');
             $table->timestamps();
         });
     }

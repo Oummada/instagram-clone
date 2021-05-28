@@ -36,7 +36,7 @@ Route::get('/', [PostController::class, 'feed'])->name('feed');
 
 
 //profile
-Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
+Route::get('profile', [ProfileController::class, 'profile'])->name('profile');
 Route::get('editprofile/{id}', [ProfileController::class, 'editprofile'])->name('editprofile');
 Route::PATCH('updated', [ProfileController::class, 'updateProfile'])->name('updateProfile');
 
@@ -50,6 +50,15 @@ Route::put('updatePost/{id}', [PostController::class, 'updatePost'])->name('upda
 
 //comments
 Route::post('CommentPosted/{id}', [PostController::class, 'storeComment'])->name('storeComment');
+
+//likes button
 Route::post('likes', [PostController::class, 'likes'])->name('likes');
 Route::post('unlike', [PostController::class, 'unlike'])->name('unlike');
+
+
+///other users profiles and follow
+Route::get('userProfile/{id}', [ProfileController::class, 'userProfile'])->name('userProfile');
+Route::post('followed', [ProfileController::class, 'follow'])->name('follow');
+Route::post('unfollowed', [ProfileController::class, 'unfollow'])->name('unfollow');
 });
+

@@ -11,47 +11,55 @@
         <header class="profile__header">
             <div class="profile__avatar-container">
 
-                @if (!Auth::user()->profile->image ==Null)
+              
                       <img 
-                    src="{{asset('storage/'.Auth::user()->profile->image) }}"
+                    src="{{asset('storage/'.$user->profile->image) }}"
                     class="profile__avatar"
                 />
-                @else
-                <img 
-                src="{{asset('images/avatar.png') }}"
-                class="profile__avatar"
-            />
-
-                @endif
+           
             </div>
             <div class="profile__info">
                 <div class="profile__name">
-                    <h1 class="profile__title">{{Auth::user()->profile->username}}</h1>
-                    <a href="{{route('editprofile',['id'=>Auth::user()->id])}}" class="profile__button u-fat-text">Edit profile</a>
-                    <i class="fa fa-cog fa-2x" id="cog"></i>
+                    <h1 class="profile__title">{{$user->profile->username}}</h1>
+
+                @if (Auth::user()->canFollow()->where('user_id_2',$user->id)->first())
+                <form action="{{route('unfollow')}}" method="post">
+                    @csrf
+                    <input type="hidden" value="{{$user->id}}" name="unfollow">
+                    <button class="btn btn-primary">unfollow</button>
+                </form> 
+                @else
+                <form action="{{route('follow')}}" method="post">
+                    @csrf
+                    <input type="hidden" value="{{$user->id}}" name="follow">
+                    <button class="btn btn-primary">Follow</button>
+                </form>
+                @endif
+
                 </div>
                 <ul class="profile__numbers">
                     <li class="profile__posts">
                         <span class="profile__number u-fat-text">{{count($posts)}}</span> posts
                     </li>
-                    {{-- @if ($profile->user_id==$user->id) --}}
-           
+                 
                     <li class="profile__followers">
                         <span class="profile__number u-fat-text">
-   
-                            {{Auth::user()->gets_followed()->count()}}     
+                               
+                            {{$user->gets_followed()->count()}}
+                         
+                        
                         </span> followers
                     </li>
                     <li class="profile__following">
-                        <span class="profile__number u-fat-text">{{Auth::user()->canFollow()->count()}}</span> following
+                        <span class="profile__number u-fat-text">{{$user->canFollow()->count()}}</span> following
                     </li>
-                    {{-- @endif --}}
+          
                 </ul>
                 <div class="profile__bio">
-                    <span class="profile__full-name u-fat-text">{{Auth::user()->name}}</span><br>
+                    <span class="profile__full-name u-fat-text">{{$user->profile->username}}</span><br>
                     {{-- bio --}}
-                    <p class="profile__full-bio">{{Auth::user()->profile->bio}}</p><br>
-                    <a href="http://serranoarevalo.com" class="profile__link u-fat-text">{{Auth::user()->profile->website}}</a>
+                    <p class="profile__full-bio">{{$user->profile->bio}}</p><br>
+                    <a href="http://serranoarevalo.com" class="profile__link u-fat-text">{{$user->profile->website}}</a>
                 </div>
             </div>
         </header>
